@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             txtField.text = ""
         }
         equals.setOnClickListener {
-            txtField.text = "idk"
+            txtField.text = "idk yet"
             equalPressed = true
         }
 
