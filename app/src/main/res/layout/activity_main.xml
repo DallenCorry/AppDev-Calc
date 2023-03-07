@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <EditText
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="1dp"
+        android:hint="Enter equation"
+        android:inputType="numberSigned|number|text|numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -143,7 +145,7 @@
             android:id="@+id/btnMultiply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="x"
+            android:text="*"
             app:layout_constraintBottom_toTopOf="@+id/btnDivide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn3"

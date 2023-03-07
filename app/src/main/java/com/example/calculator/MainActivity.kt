@@ -2,8 +2,6 @@ package com.example.calculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.View.OnClickListener
 import android.widget.Button
 import android.widget.TextView
 
@@ -12,8 +10,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
 
         val txtField:TextView = findViewById(R.id.textView1)
         val clear: Button = findViewById(R.id.btnClear)
@@ -38,7 +34,12 @@ class MainActivity : AppCompatActivity() {
             txtField.text = ""
         }
         equals.setOnClickListener {
-            txtField.text = "idk yet"
+            try {
+                txtField.text = "${eval(txtField.text)}"
+            }
+            catch (ex: BadEvalException) {
+                txtField.text = "Error: ${ex.message}"
+            }
             equalPressed = true
         }
 
@@ -86,19 +87,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    class BadEvalException(message: String): Exception(message) {
+
+    }
+
+
+    fun eval(s: CharSequence): Double {
+        var finalVal = 0.0
+        if (finalVal == 0.0) {
+            throw BadEvalException("Class \"kotlin.js.eval\" Not found")
+        }
+        return finalVal
+    }
+
   fun appendButtonText(view: TextView, button: Button) {
       if(equalPressed) {
           view.text = ""
           equalPressed = false
       }
-      view.append(button.text)
+      //If it's an operation, only allow one to be put at a time
+      if(
+          button.id == R.id.btnPlus ||
+          button.id == R.id.btnMinus ||
+          button.id == R.id.btnMultiply ||
+          button.id == R.id.btnDivide
+      ) {
+          println("${view.length()!=0}")
+          if (view.length()!=0) {
+              if (
+                  view.text.endsWith('+') ||
+                  view.text.endsWith('-') ||
+                  view.text.endsWith('*') ||
+                  view.text.endsWith('/')
+              ) {
+//              val temp = view.text.substring(0, view.text.length - 1)
+                  view.text = view.text.substring(0, view.text.length - 1)
+              }
+              view.append(button.text)
+          }
+      } else {
+          view.append(button.text)
+      }
   }
-
-
 }
-
-//class testThing:OnClickListener {
-//    override fun onClick(p0: View?) {
-//        MainActivity.appendButtonText(MainActivity.txtField,p0)
-//    }
-//}
