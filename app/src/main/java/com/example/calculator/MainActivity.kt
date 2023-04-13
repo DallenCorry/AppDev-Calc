@@ -4,12 +4,33 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.room.Room
+import com.example.calculator.database.EntryDB
+import com.example.calculator.database.Entry
 
 class MainActivity : AppCompatActivity() {
     var equalPressed = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //DB stuff
+        val db = Room.databaseBuilder(
+            applicationContext,
+            EntryDB::class.java, //gives the schema
+            "entry"//the name of the table in the database
+        ).build()
+
+
+        val testDao = db.entryDao()
+        //add to database. Setting it to 0 will allow autogeneration of keys.
+        testDao.insertAll(Entry(0, "Test4", 14.0))
+
+        //retreive from database
+        val entryList: List<Entry> = testDao.getAll()
+        val prevEntries:TextView = findViewById(R.id.previousFormulae)
+        prevEntries.text = entryList.toString()
+
 
         val txtField:TextView = findViewById(R.id.textView1)
         val clear: Button = findViewById(R.id.btnClear)
